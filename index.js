@@ -1,25 +1,25 @@
-const expree = require("express");
-const app = expree();
-const importData = require("./data.json");
-let port = process.env.PORT || 3000;
-const cors = require("cors");
+const express = require("express");
+const app = express();
+const dotenv = require('dotenv');
 
-const corsOptions = {
-  origin: "*",
-  credentials: true, //access-control-allow-credentials:true
-  optionSuccessStatus: 200,
-};
+dotenv.config({ path: './config.env' });
 
-app.use(cors(corsOptions));
+require('./db/conn');
+
+app.use(express.json());
+
+app.use(require('./router/auth'));
+
+const PORT = process.env.PORT;
 
 app.get("/", (req,res) => {
   res.send("Hello World");
 });
 
 app.get("/category", (req,res) => {
-    res.send(importData);
+    res.send(hii);
 });
 
-app.listen(port, () => {
-    console.log(`Example app is listing on port http://localhost:${port}`);
+app.listen(PORT, () => {
+    console.log(`Example app is listing on port http://localhost:${PORT}`);
 });
